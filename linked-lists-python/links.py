@@ -1,5 +1,4 @@
 # imports
-from os import link
 from linked_lists_python import LinkedList
 
 # function definitions
