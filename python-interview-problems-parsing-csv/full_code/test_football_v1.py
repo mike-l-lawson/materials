@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-""" Pytest functions for CSV Football problem """
-import pytest
+"""Pytest functions for CSV Football problem"""
+
 import football_v1 as fb
+import pytest
 
 
 @pytest.fixture

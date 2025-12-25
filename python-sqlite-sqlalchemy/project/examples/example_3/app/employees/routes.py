@@ -1,8 +1,6 @@
-from flask import Blueprint
-from flask import render_template
 from app import db
 from app.models import Employee
-
+from flask import Blueprint, render_template
 
 # Setup the Blueprint
 employees_bp = Blueprint(
@@ -16,7 +14,6 @@ employees_bp = Blueprint(
 @employees_bp.route("/employees", methods=["GET"])
 @employees_bp.route("/employees/<int:employee_id>", methods=["GET"])
 def employees(employee_id=None):
-
     # Start the query for employees
     query = db.session.query(Employee)
 

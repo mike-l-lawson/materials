@@ -11,22 +11,21 @@ Author @ysbecca
 
 """
 
-import matplotlib.pyplot as plt
-import numpy as np
+import csv
+import pickle
 from pathlib import Path
 from timeit import timeit
-
-# For disk
-from PIL import Image
-import csv
-
-# For lmdb
-import lmdb
-import pickle
 
 # For HDF5
 import h5py
 
+# For lmdb
+import lmdb
+import matplotlib.pyplot as plt
+import numpy as np
+
+# For disk
+from PIL import Image
 
 # Path to the unzipped CIFAR data
 data_dir = Path("data/cifar-10-batches-py/")
@@ -289,7 +288,7 @@ def plot_with_legend(
         )
 
     all_plots = []
-    for data, label in zip(y_data, legend_labels):
+    for data, label in zip(y_data, legend_labels, strict=False):
         if log:
             (temp,) = plt.loglog(x_range, data, label=label)
         else:

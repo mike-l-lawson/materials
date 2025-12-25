@@ -1,8 +1,8 @@
-import sys
-import selectors
-import json
 import io
+import json
+import selectors
 import struct
+import sys
 
 request_search = {
     "morpheus": "Follow the white rabbit. \U0001f430",
@@ -146,8 +146,7 @@ class Message:
             self.selector.unregister(self.sock)
         except Exception as e:
             print(
-                f"Error: selector.unregister() exception for "
-                f"{self.addr}: {e!r}"
+                f"Error: selector.unregister() exception for {self.addr}: {e!r}"
             )
 
         try:
@@ -196,8 +195,7 @@ class Message:
             # Binary or unknown content-type
             self.request = data
             print(
-                f"Received {self.jsonheader['content-type']} "
-                f"request from {self.addr}"
+                f"Received {self.jsonheader['content-type']} request from {self.addr}"
             )
         # Set selector to listen for write events, we're done reading.
         self._set_selector_events_mask("w")

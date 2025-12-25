@@ -3,15 +3,13 @@ This program builds the author_book_publisher Sqlite database from the
 author_book_publisher.csv file.
 """
 
-import os
 import csv
+import os
 from importlib import resources
+
+from project.modules.models import Author, Base, Book, Publisher
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from project.modules.models import Base
-from project.modules.models import Author
-from project.modules.models import Book
-from project.modules.models import Publisher
 
 
 def get_author_book_publisher_data(filepath):
@@ -27,7 +25,6 @@ def get_author_book_publisher_data(filepath):
 def populate_database(session, author_book_publisher_data):
     # insert the data
     for row in author_book_publisher_data:
-
         author = (
             session.query(Author)
             .filter(Author.last_name == row["last_name"])

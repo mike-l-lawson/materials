@@ -1,9 +1,7 @@
+from mandelbrot_03 import MandelbrotSet
 from PIL import Image
 
-from mandelbrot_03 import MandelbrotSet
-
 if __name__ == "__main__":
-
     mandelbrot_set = MandelbrotSet(max_iterations=20, escape_radius=1000)
 
     width, height = 512, 512

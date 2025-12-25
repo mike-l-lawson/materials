@@ -11,18 +11,17 @@ of adventurelib. It will:
 
 # Import the library contents
 # from adventurelib import *
-import adventurelib as adv
-
-# Import your rooms, which imports your items and characters
-import adventurelib_game_rooms
-
-import adventurelib_game_items
+# To allow you to exit the game
+import sys
 
 # For your battle sequence
 from random import randint
 
-# To allow you to exit the game
-import sys
+import adventurelib as adv
+import adventurelib_game_items
+
+# Import your rooms, which imports your items and characters
+import adventurelib_game_rooms
 
 # Set the first room
 current_room = adventurelib_game_rooms.home
@@ -278,7 +277,6 @@ def answer_riddle():
 
 @adv.when("fight CHARACTER", context="giant")
 def fight_giant(character: str):
-
     global giant_hit_points, hit_points
 
     sword = inventory.find("sword")
@@ -317,7 +315,6 @@ def fight_giant(character: str):
 
 
 def print_giant_condition():
-
     if giant_hit_points < 10:
         print("The giant staggers, his eyes unfocused.")
     elif giant_hit_points < 20:
@@ -331,7 +328,6 @@ def print_giant_condition():
 
 
 def print_player_condition():
-
     if hit_points < 4:
         print("Your eyes lose focus on the giant as you sway unsteadily.")
     elif hit_points < 8:
@@ -411,7 +407,6 @@ def flee():
 @adv.when("adios")
 @adv.when("later")
 def goodbye():
-
     # Are you fighting the giant?
     if adv.get_context() == "giant":
         # Not so fast!

@@ -3,9 +3,9 @@ This is the people module and supports all the REST actions for the
 people data
 """
 
-from flask import make_response, abort
 from config import db
-from models import Person, Note, NoteSchema
+from flask import abort, make_response
+from models import Note, NoteSchema, Person
 
 
 def read_all():
@@ -100,7 +100,6 @@ def update(person_id, note_id, note):
 
     # Did we find an existing note?
     if update_note is not None:
-
         # turn the passed in note into a db object
         schema = NoteSchema()
         update = schema.load(note, session=db.session).data

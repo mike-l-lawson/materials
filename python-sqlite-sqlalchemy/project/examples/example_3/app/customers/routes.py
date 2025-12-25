@@ -1,11 +1,7 @@
-from flask import Blueprint
-from flask import render_template
-from sqlalchemy import func
 from app import db
-from app.models import Customer
-from app.models import Invoice
-from sqlalchemy import desc
-
+from app.models import Customer, Invoice
+from flask import Blueprint, render_template
+from sqlalchemy import desc, func
 
 # Setup the Blueprint
 customers_bp = Blueprint(
@@ -19,7 +15,6 @@ customers_bp = Blueprint(
 @customers_bp.route("/customers", methods=["GET"])
 @customers_bp.route("/customers/<int:customer_id>", methods=["GET"])
 def customers(customer_id=None):
-
     # Start the query for customers
     query = db.session.query(
         Customer, func.sum(Invoice.total).label("invoices_total")

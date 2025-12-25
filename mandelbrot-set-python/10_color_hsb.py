@@ -1,15 +1,12 @@
+from mandelbrot_03 import MandelbrotSet
 from PIL import Image
 from PIL.ImageColor import getrgb
-
-from mandelbrot_03 import MandelbrotSet
 from viewport import Viewport
 
 
 def hsb(hue_degrees: int, saturation: float, brightness: float):
     return getrgb(
-        f"hsv({hue_degrees % 360},"
-        f"{saturation * 100}%,"
-        f"{brightness * 100}%)"
+        f"hsv({hue_degrees % 360},{saturation * 100}%,{brightness * 100}%)"
     )
 
 

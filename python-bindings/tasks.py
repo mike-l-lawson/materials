@@ -1,14 +1,16 @@
-""" Task definitions for invoke command line utility for python bindings
-    overview article.
+"""Task definitions for invoke command line utility for python bindings
+overview article.
 """
+
+import glob
+import os
+import pathlib
+import re
+import shutil
+import sys
+
 import cffi
 import invoke
-import pathlib
-import sys
-import os
-import shutil
-import re
-import glob
 
 on_win = sys.platform.startswith("win")
 
@@ -57,7 +59,7 @@ def build_cmult(c, path=None):
             c.run(path)
     else:
         print_banner("Building C Library")
-        cmd = "gcc -c -Wall -Werror -fpic cmult.c -I /usr/include/python3.7"
+        cmd = "gcc -c -Wall -Werror -fpic cmult.c"
         invoke.run(cmd)
         invoke.run("gcc -shared -o libcmult.so cmult.o")
         print("* Complete")
@@ -85,7 +87,7 @@ def test_ctypes_cpp(c):
         invoke.run("python3 ctypes_cpp_test.py", pty=True)
 
 
-@invoke.task()
+@invoke.task(build_cmult)
 def build_cffi(c):
     """Build the CFFI Python bindings"""
     print_banner("Building CFFI Module")
@@ -118,7 +120,7 @@ def build_cffi(c):
     print("* Complete")
 
 
-@invoke.task()
+@invoke.task(build_cffi)
 def test_cffi(c):
     """Run the script to test CFFI"""
     print_banner("Testing CFFI Module")
@@ -130,8 +132,7 @@ def build_cppmult(c):
     """Build the shared library for the sample C++ code"""
     print_banner("Building C++ Library")
     invoke.run(
-        "g++ -O3 -Wall -Werror -shared -std=c++11 -fPIC cppmult.cpp "
-        "-o libcppmult.so "
+        "g++ -O3 -Wall -Werror -shared -std=c++11 -fPIC cppmult.cpp -o libcppmult.so "
     )
     print("* Complete")
 
@@ -140,9 +141,9 @@ def compile_python_module(cpp_name, extension_name):
     invoke.run(
         "g++ -O3 -Wall -Werror -shared -std=c++11 -fPIC "
         "`python3 -m pybind11 --includes` "
-        "-I /usr/include/python3.7 -I .  "
+        "-I . "
         "{0} "
-        "-o {1}`python3.7-config --extension-suffix` "
+        "-o {1}`python3-config --extension-suffix` "
         "-L. -lcppmult -Wl,-rpath,.".format(cpp_name, extension_name)
     )
 
@@ -155,7 +156,7 @@ def build_pybind11(c):
     print("* Complete")
 
 
-@invoke.task()
+@invoke.task(build_pybind11)
 def test_pybind11(c):
     """Run the script to test PyBind11"""
     print_banner("Testing PyBind11 Module")
@@ -174,7 +175,7 @@ def build_cython(c):
     print("* Complete")
 
 
-@invoke.task()
+@invoke.task(build_cython)
 def test_cython(c):
     """Run the script to test Cython"""
     print_banner("Testing Cython Module")

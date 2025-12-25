@@ -9,16 +9,16 @@ Pygame, including:
 """
 
 # Import and initialize the pygame library
-import pygame
+# To find your assets
+from pathlib import Path
 
 # To randomize coin placement
 from random import randint
 
-# To find your assets
-from pathlib import Path
-
 # For type hinting
 from typing import Tuple
+
+import pygame
 
 # Set the width and height of the output window, in pixels
 WIDTH = 800
@@ -109,7 +109,6 @@ player.update(pygame.mouse.get_pos())
 # Run until you get to an end condition
 running = True
 while running:
-
     # Did the user click the window close button?
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

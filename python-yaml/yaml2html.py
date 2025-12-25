@@ -4,11 +4,11 @@ import sys
 
 import yaml
 from yaml import (
-    ScalarEvent,
-    SequenceStartEvent,
-    SequenceEndEvent,
-    MappingStartEvent,
     MappingEndEvent,
+    MappingStartEvent,
+    ScalarEvent,
+    SequenceEndEvent,
+    SequenceStartEvent,
 )
 
 OPEN_TAG_EVENTS = (ScalarEvent, SequenceStartEvent, MappingStartEvent)
@@ -25,7 +25,6 @@ class HTMLBuilder:
         return "".join(self._html)
 
     def process(self, event):
-
         if isinstance(event, OPEN_TAG_EVENTS):
             self._handle_tag()
 

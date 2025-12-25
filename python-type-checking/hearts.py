@@ -1,10 +1,9 @@
 # hearts.py
 
-from collections import Counter
 import random
 import sys
-from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
-from typing import overload
+from collections import Counter
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Union, overload
 
 
 class Card:
@@ -67,16 +66,12 @@ class Deck(Sequence[Card]):
         return len(self.cards)
 
     @overload
-    def __getitem__(self, key: int) -> Card:
-        ...
+    def __getitem__(self, key: int) -> Card: ...
 
     @overload
-    def __getitem__(self, key: slice) -> "Deck":  # noqa
-        ...
+    def __getitem__(self, key: slice) -> "Deck": ...
 
-    def __getitem__(  # noqa
-        self, key: Union[int, slice]
-    ) -> Union[Card, "Deck"]:
+    def __getitem__(self, key: Union[int, slice]) -> Union[Card, "Deck"]:
         if isinstance(key, int):
             return self.cards[key]
         elif isinstance(key, slice):
@@ -183,7 +178,7 @@ class HeartsGame:
     def play_round(self) -> Dict[str, int]:
         """Play a round of the Hearts card game"""
         deck = Deck.create(shuffle=True)
-        for player, hand in zip(self.players, deck.deal(4)):
+        for player, hand in zip(self.players, deck.deal(4), strict=False):
             player.hand.add_cards(hand.cards)
         start_player = next(
             p for p in self.players if p.has_card(Card("♣", "2"))
@@ -215,7 +210,9 @@ class HeartsGame:
     def trick_winner(trick: List[Card], players: List[Player]) -> Player:
         lead = trick[0].suit
         valid = [
-            (c.value, p) for c, p in zip(trick, players) if c.suit == lead
+            (c.value, p)
+            for c, p in zip(trick, players, strict=False)
+            if c.suit == lead
         ]
         return max(valid)[1]
 
